@@ -7,7 +7,7 @@ function App() {
 
   const calculateResult = (expression) => {
     try {
-      return Function(`"use strict"; return (${expression})`)();
+      return Function('"use strict"; return (' + expression + ")")();
     } catch {
       return "Error";
     }
@@ -30,22 +30,10 @@ function App() {
   };
 
   const buttons = [
-    "7",
-    "8",
-    "9",
-    "+",
-    "4",
-    "5",
-    "6",
-    "-",
-    "1",
-    "2",
-    "3",
-    "*",
-    "C",
-    "0",
-    "=",
-    "/",
+    "7", "8", "9", "+",
+    "4", "5", "6", "-",
+    "1", "2", "3", "*",
+    "C", "0", "=", "/"
   ];
 
   return (
@@ -54,7 +42,6 @@ function App() {
 
       <input type="text" value={input} readOnly />
 
-      {/* Single div for result */}
       <div className="result">{result}</div>
 
       <div className="button-grid">
