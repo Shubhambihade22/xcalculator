@@ -5,6 +5,14 @@ function App() {
   const [input, setInput] = useState("");
   const [result, setResult] = useState("");
 
+  const calculateResult = (expression) => {
+    try {
+      return Function(`"use strict"; return (${expression})`)();
+    } catch {
+      return "Error";
+    }
+  };
+
   const handleClick = (value) => {
     if (value === "C") {
       setInput("");
@@ -13,15 +21,11 @@ function App() {
       if (input === "") {
         setResult("Error");
       } else {
-        try {
-          const evalResult = eval(input);
-          setResult(String(evalResult));
-        } catch (error) {
-          setResult("Error");
-        }
+        const output = calculateResult(input);
+        setResult(String(output));
       }
     } else {
-      setInput(input + value);
+      setInput((prev) => prev + value);
     }
   };
 
@@ -45,58 +49,17 @@ function App() {
   ];
 
   return (
-    <div
-      style={{
-        textAlign: "center",
-        marginTop: "20px",
-        fontFamily: "Arial",
-      }}
-    >
+    <div className="container">
       <h1>React Calculator</h1>
 
-      <input
-        type="text"
-        value={input}
-        readOnly
-        style={{
-          width: "250px",
-          height: "35px",
-          fontSize: "22px",
-          marginBottom: "20px",
-        }}
-      />
+      <input type="text" value={input} readOnly />
 
       {/* Single div for result */}
-      <div
-        style={{
-          fontSize: "32px",
-          marginBottom: "20px",
-          minHeight: "40px",
-        }}
-      >
-        {result}
-      </div>
+      <div className="result">{result}</div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 80px)",
-          gap: "20px",
-          justifyContent: "center",
-        }}
-      >
+      <div className="button-grid">
         {buttons.map((btn, index) => (
-          <button
-            key={index}
-            onClick={() => handleClick(btn)}
-            style={{
-              width: "80px",
-              height: "80px",
-              fontSize: "30px",
-              borderRadius: "15px",
-              cursor: "pointer",
-            }}
-          >
+          <button key={index} onClick={() => handleClick(btn)}>
             {btn}
           </button>
         ))}
